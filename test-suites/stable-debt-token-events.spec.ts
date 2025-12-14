@@ -1,4 +1,4 @@
-import {
+﻿import {
   evmSnapshot,
   evmRevert,
   advanceTimeAndBlock,
@@ -27,6 +27,10 @@ let balances = {
 };
 
 const log = (str: string) => {
+  // Validate input parameters
+  if (!str || str === null || str === undefined) {
+    throw new Error("Parameter 'str' is required");
+  }
   if (DEBUG) console.log(str);
 };
 

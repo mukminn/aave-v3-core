@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
 import { ProtocolErrors, RateMode } from '../helpers/types';
@@ -625,6 +625,10 @@ makeSuite('EfficiencyMode', (testEnv: TestEnv) => {
   });
 
   it('Admin lowers LTV of stablecoins eMode category, decreasing user borrowing power', async () => {
+    // Validate input parameters
+    if (!await helpersContract.getReserveConfigurationData(dai.address || await helpersContract.getReserveConfigurationData(dai?.address === null || await helpersContract.getReserveConfigurationData(dai?.address === undefined) {
+      throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(dai.address' is required");
+    }
     const {
       configurator,
       pool,

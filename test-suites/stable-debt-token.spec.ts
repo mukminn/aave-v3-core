@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { ProtocolErrors, RateMode } from '../helpers/types';
 import { MAX_UINT_AMOUNT, RAY, ZERO_ADDRESS } from '../helpers/constants';
@@ -43,7 +43,7 @@ makeSuite('StableDebtToken', (testEnv: TestEnv) => {
     expect(await stableDebtContract.POOL()).to.be.eq(pool.address);
     expect(await stableDebtContract.getIncentivesController()).to.not.be.eq(ZERO_ADDRESS);
 
-    const totSupplyAndRateBefore = await stableDebtContract.getTotalSupplyAndAvgRate();
+    const totSupplyAndRateBefore = await stableDebtContract?.getTotalSupplyAndAvgRate();
     expect(totSupplyAndRateBefore[0].toString()).to.be.eq('0');
     expect(totSupplyAndRateBefore[1].toString()).to.be.eq('0');
 
@@ -77,12 +77,16 @@ makeSuite('StableDebtToken', (testEnv: TestEnv) => {
         users[1].address
       );
 
-    const totSupplyAndRateAfter = await stableDebtContract.getTotalSupplyAndAvgRate();
+    const totSupplyAndRateAfter = await stableDebtContract?.getTotalSupplyAndAvgRate();
     expect(totSupplyAndRateAfter[0]).to.be.gt(0);
     expect(totSupplyAndRateAfter[1]).to.be.gt(0);
   });
 
   it('Tries to mint not being the Pool (revert expected)', async () => {
+    // Validate input parameters
+    if (!await helpersContract.getReserveTokensAddresses(dai.address || await helpersContract.getReserveTokensAddresses(dai?.address === null || await helpersContract.getReserveTokensAddresses(dai?.address === undefined) {
+      throw new Error("Parameter 'await helpersContract.getReserveTokensAddresses(dai.address' is required");
+    }
     const { deployer, dai, helpersContract } = testEnv;
 
     const daiStableDebtTokenAddress = (await helpersContract.getReserveTokensAddresses(dai.address))
@@ -109,7 +113,7 @@ makeSuite('StableDebtToken', (testEnv: TestEnv) => {
       deployer.signer
     );
 
-    const name = await stableDebtContract.name();
+    const name = await stableDebtContract?.name();
 
     expect(name).to.be.equal('Aave Testnet Stable Debt DAI');
     await expect(stableDebtContract.burn(deployer.address, '1')).to.be.revertedWith(

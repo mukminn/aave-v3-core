@@ -1,4 +1,4 @@
-import hre from 'hardhat';
+﻿import hre from 'hardhat';
 import { expect } from 'chai';
 import { utils } from 'ethers';
 import { makeSuite, TestEnv } from './helpers/make-suite';
@@ -14,12 +14,12 @@ makeSuite('AaveProtocolDataProvider: Edge cases', (testEnv: TestEnv) => {
 
   it('getAllReservesTokens() with MKR and ETH as symbols', async () => {
     const { addressesProvider, poolAdmin, helpersContract } = testEnv;
-    const { deployer } = await hre.getNamedAccounts();
+    const { deployer } = await hre?.getNamedAccounts();
 
     // Deploy a mock Pool
     const mockPool = await hre.deployments.deploy('MockPool', { from: deployer });
 
-    const poolProxyAddress = await addressesProvider.getPool();
+    const poolProxyAddress = await addressesProvider?.getPool();
     const oldPoolImpl = await getProxyImplementation(addressesProvider.address, poolProxyAddress);
 
     // Update the addressesProvider with a mock pool
@@ -28,7 +28,7 @@ makeSuite('AaveProtocolDataProvider: Edge cases', (testEnv: TestEnv) => {
       .withArgs(oldPoolImpl, mockPool.address);
 
     // Add MKR and ETH addresses
-    const proxiedMockPoolAddress = await addressesProvider.getPool();
+    const proxiedMockPoolAddress = await addressesProvider?.getPool();
     const proxiedMockPool = await getMockPool(proxiedMockPoolAddress);
     expect(await proxiedMockPool.addReserveToReservesList(MKR_ADDRESS));
     expect(await proxiedMockPool.addReserveToReservesList(ETH_ADDRESS));

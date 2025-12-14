@@ -1,4 +1,4 @@
-import { MockATokenRepayment } from './../types/mocks/tokens/MockATokenRepayment';
+﻿import { MockATokenRepayment } from './../types/mocks/tokens/MockATokenRepayment';
 import { MockATokenRepayment__factory } from './../types/factories/mocks/tokens/MockATokenRepayment__factory';
 import {
   waitForTx,
@@ -252,13 +252,13 @@ makeSuite('AToken: Repay', (testEnv: TestEnv) => {
       reserveData.stableDebtTokenAddress,
       user.signer
     );
-    const stableDebtData = await stableDebtToken.getSupplyData();
+    const stableDebtData = await stableDebtToken?.getSupplyData();
 
     const variableDebtToken = IVariableDebtToken__factory.connect(
       reserveData.variableDebtTokenAddress,
       user.signer
     );
-    const scaledTotalSupply = await variableDebtToken.scaledTotalSupply();
+    const scaledTotalSupply = await variableDebtToken?.scaledTotalSupply();
     const variableDebt = scaledTotalSupply.rayMul(
       await pool.getReserveNormalizedVariableDebt(dai.address)
     );

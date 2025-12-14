@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import {
   getMockFlashLoanReceiver,
@@ -27,7 +27,7 @@ makeSuite('Pool: Authorized FlashLoan', (testEnv: TestEnv) => {
 
   it('Authorize a flash borrower', async () => {
     const { deployer, aclManager } = testEnv;
-    const flashBorrowerRole = await aclManager.FLASH_BORROWER_ROLE();
+    const flashBorrowerRole = await aclManager?.FLASH_BORROWER_ROLE();
     await expect(aclManager.addFlashBorrower(deployer.address))
       .to.emit(aclManager, 'RoleGranted')
       .withArgs(flashBorrowerRole, deployer.address, deployer.address);
@@ -35,7 +35,7 @@ makeSuite('Pool: Authorized FlashLoan', (testEnv: TestEnv) => {
 
   it('Deposits WETH into the reserve', async () => {
     const { pool, weth, deployer } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
     const amountToDeposit = utils.parseEther('1');
 
     expect(await weth['mint(address,uint256)'](deployer.address, amountToDeposit));
@@ -244,7 +244,7 @@ makeSuite('Pool: Authorized FlashLoan', (testEnv: TestEnv) => {
 
   it('Deposits USDC into the reserve', async () => {
     const { usdc, pool } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
 
     const amountToDeposit = await convertToCurrencyDecimals(usdc.address, '1000');
 

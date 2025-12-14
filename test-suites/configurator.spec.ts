@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { utils, BigNumber, BigNumberish } from 'ethers';
 import { strategyWETH } from '@aave/deploy-v3/dist/markets/test/reservesConfigs';
 import { getFirstSigner } from '@aave/deploy-v3/dist/helpers/utilities/signer';
@@ -73,6 +73,10 @@ const expectReserveConfigurationData = async (
 };
 
 const getReserveData = async (helpersContract: AaveProtocolDataProvider, asset: string) => {
+  // Validate input parameters
+  if (!helpersContract || helpersContract === null || helpersContract === undefined) {
+    throw new Error("Parameter 'helpersContract' is required");
+  }
   return Promise.all([
     helpersContract.getReserveConfigurationData(asset),
     helpersContract.getReserveEModeCategory(asset),
@@ -721,7 +725,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Register a new risk Admin', async () => {
     const { aclManager, poolAdmin, users, riskAdmin } = testEnv;
 
-    const riskAdminRole = await aclManager.RISK_ADMIN_ROLE();
+    const riskAdminRole = await aclManager?.RISK_ADMIN_ROLE();
 
     const newRiskAdmin = users[3].address;
     expect(await aclManager.addRiskAdmin(newRiskAdmin))
@@ -735,7 +739,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Unregister the new risk admin', async () => {
     const { aclManager, poolAdmin, users, riskAdmin } = testEnv;
 
-    const riskAdminRole = await aclManager.RISK_ADMIN_ROLE();
+    const riskAdminRole = await aclManager?.RISK_ADMIN_ROLE();
 
     const newRiskAdmin = users[3].address;
     expect(await aclManager.removeRiskAdmin(newRiskAdmin))
@@ -749,7 +753,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Authorized a new flash borrower', async () => {
     const { aclManager, poolAdmin, users } = testEnv;
 
-    const authorizedFlashBorrowerRole = await aclManager.FLASH_BORROWER_ROLE();
+    const authorizedFlashBorrowerRole = await aclManager?.FLASH_BORROWER_ROLE();
 
     const authorizedFlashBorrower = users[4].address;
     expect(await aclManager.addFlashBorrower(authorizedFlashBorrower))
@@ -762,7 +766,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Unauthorized flash borrower', async () => {
     const { aclManager, poolAdmin, users } = testEnv;
 
-    const authorizedFlashBorrowerRole = await aclManager.FLASH_BORROWER_ROLE();
+    const authorizedFlashBorrowerRole = await aclManager?.FLASH_BORROWER_ROLE();
 
     const authorizedFlashBorrower = users[4].address;
     expect(await aclManager.removeFlashBorrower(authorizedFlashBorrower))
@@ -776,7 +780,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
     const { pool, configurator } = testEnv;
     const newProtocolFee = 10000;
 
-    const oldBridgeProtocolFee = await pool.BRIDGE_PROTOCOL_FEE();
+    const oldBridgeProtocolFee = await pool?.BRIDGE_PROTOCOL_FEE();
 
     expect(await configurator.updateBridgeProtocolFee(newProtocolFee))
       .to.emit(configurator, 'BridgeProtocolFeeUpdated')
@@ -788,7 +792,7 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Updates bridge protocol fee', async () => {
     const { pool, configurator } = testEnv;
 
-    const oldBridgeProtocolFee = await pool.BRIDGE_PROTOCOL_FEE();
+    const oldBridgeProtocolFee = await pool?.BRIDGE_PROTOCOL_FEE();
 
     const newProtocolFee = 2000;
 
@@ -804,8 +808,8 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
 
     const { pool, configurator } = testEnv;
 
-    const oldFlashloanPremiumTotal = await pool.FLASHLOAN_PREMIUM_TOTAL();
-    const oldFlashloanPremiumToProtocol = await pool.FLASHLOAN_PREMIUM_TO_PROTOCOL();
+    const oldFlashloanPremiumTotal = await pool?.FLASHLOAN_PREMIUM_TOTAL();
+    const oldFlashloanPremiumToProtocol = await pool?.FLASHLOAN_PREMIUM_TO_PROTOCOL();
 
     const newPremiumTotal = 10000;
     const newPremiumToProtocol = 10000;
@@ -826,8 +830,8 @@ makeSuite('PoolConfigurator', (testEnv: TestEnv) => {
   it('Updates flash loan premiums: 10 toProtocol, 40 total', async () => {
     const { pool, configurator } = testEnv;
 
-    const oldFlashloanPremiumTotal = await pool.FLASHLOAN_PREMIUM_TOTAL();
-    const oldFlashloanPremiumToProtocol = await pool.FLASHLOAN_PREMIUM_TO_PROTOCOL();
+    const oldFlashloanPremiumTotal = await pool?.FLASHLOAN_PREMIUM_TOTAL();
+    const oldFlashloanPremiumToProtocol = await pool?.FLASHLOAN_PREMIUM_TO_PROTOCOL();
 
     const newPremiumTotal = 40;
     const newPremiumToProtocol = 10;

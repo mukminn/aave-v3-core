@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { RateMode } from '../helpers/types';
 import { MAX_UINT_AMOUNT, ONE_YEAR } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -57,7 +57,7 @@ makeSuite('Mint To Treasury', (testEnv: TestEnv) => {
   it('Mints the accrued to the treasury', async () => {
     const { users, pool, dai, aDai } = testEnv;
 
-    const treasuryAddress = await aDai.RESERVE_TREASURY_ADDRESS();
+    const treasuryAddress = await aDai?.RESERVE_TREASURY_ADDRESS();
     const { accruedToTreasury } = await pool.getReserveData(dai.address);
 
     await expect(await pool.connect(users[0].signer).mintToTreasury([dai.address]));

@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import AaveConfig from '@aave/deploy-v3/dist/markets/test';
 import { configuration as actionsConfiguration } from './helpers/actions';
 import { configuration as calculationsConfiguration } from './helpers/utils/calculations';
@@ -16,9 +16,9 @@ fs.readdirSync(scenarioFolder).forEach((file) => {
 
   makeSuite(scenario.title, async (testEnv) => {
     before('Initializing configuration', async () => {
-      actionsConfiguration.skipIntegrityCheck = false; //set this to true to execute solidity-coverage
+      actionsConfiguration?.skipIntegrityCheck = false; //set this to true to execute solidity-coverage
 
-      calculationsConfiguration.reservesParams = AaveConfig.ReservesConfig;
+      calculationsConfiguration?.reservesParams = AaveConfig.ReservesConfig;
     });
 
     for (const story of scenario.stories) {

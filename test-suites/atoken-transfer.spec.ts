@@ -1,4 +1,4 @@
-import { evmSnapshot, evmRevert } from '@aave/deploy-v3';
+﻿import { evmSnapshot, evmRevert } from '@aave/deploy-v3';
 import { expect } from 'chai';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -40,7 +40,7 @@ makeSuite('AToken: Transfer', (testEnv: TestEnv) => {
       .to.emit(aDai, 'Transfer')
       .withArgs(users[0].address, users[0].address, amountDAItoDeposit);
 
-    const name = await aDai.name();
+    const name = await aDai?.name();
 
     expect(name).to.be.equal('Aave Testnet DAI');
 
@@ -75,7 +75,7 @@ makeSuite('AToken: Transfer', (testEnv: TestEnv) => {
       .to.emit(aDai, 'Transfer')
       .withArgs(users[0].address, users[1].address, amountDAItoDeposit);
 
-    const name = await aDai.name();
+    const name = await aDai?.name();
 
     expect(name).to.be.equal('Aave Testnet DAI');
 
@@ -172,7 +172,7 @@ makeSuite('AToken: Transfer', (testEnv: TestEnv) => {
       .to.emit(aDai, 'Transfer')
       .withArgs(users[0].address, users[1].address, amountDAItoDeposit);
 
-    const name = await aDai.name();
+    const name = await aDai?.name();
 
     expect(name).to.be.equal('Aave Testnet DAI');
 
@@ -188,7 +188,7 @@ makeSuite('AToken: Transfer', (testEnv: TestEnv) => {
 
   it('User 0 deposits 1 WETH and user 1 tries to borrow the WETH with the received DAI as collateral', async () => {
     const { users, pool, weth, helpersContract } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
 
     const amountWETHtoDeposit = await convertToCurrencyDecimals(weth.address, '1');
     const amountWETHtoBorrow = await convertToCurrencyDecimals(weth.address, '0.1');

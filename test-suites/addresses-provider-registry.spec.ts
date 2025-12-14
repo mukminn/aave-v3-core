@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { ProtocolErrors } from '../helpers/types';
 import { TestEnv, makeSuite } from './helpers/make-suite';
 import { ONE_ADDRESS } from '@aave/deploy-v3';
@@ -18,7 +18,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
   it('Checks the addresses provider is added to the registry', async () => {
     const { addressesProvider, registry } = testEnv;
 
-    const providers = await registry.getAddressesProvidersList();
+    const providers = await registry?.getAddressesProvidersList();
 
     expect(providers.length).to.be.equal(1, 'Invalid length of the addresses providers list');
     expect(providers[0].toString()).to.be.equal(
@@ -38,7 +38,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
   it('Registers a mock addresses provider', async () => {
     const { registry } = testEnv;
 
-    const providersBefore = await registry.getAddressesProvidersList();
+    const providersBefore = await registry?.getAddressesProvidersList();
 
     await expect(
       registry.registerAddressesProvider(
@@ -53,7 +53,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       NEW_ADDRESSES_PROVIDER_ID_2
     );
 
-    const providersAfter = await registry.getAddressesProvidersList();
+    const providersAfter = await registry?.getAddressesProvidersList();
     expect(providersAfter.length).to.be.equal(
       providersBefore.length + 1,
       'Invalid length of the addresses providers list'
@@ -76,7 +76,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       .to.emit(registry, 'AddressesProviderRegistered')
       .withArgs(users[2].address, NEW_ADDRESSES_PROVIDER_ID_3);
 
-    const providers = await registry.getAddressesProvidersList();
+    const providers = await registry?.getAddressesProvidersList();
 
     expect(providers.length).to.be.equal(
       NEW_ADDRESSES_PROVIDER_ID_3,
@@ -91,7 +91,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
   it('Removes the mock addresses provider', async () => {
     const { users, registry, addressesProvider } = testEnv;
 
-    const providersBefore = await registry.getAddressesProvidersList();
+    const providersBefore = await registry?.getAddressesProvidersList();
 
     expect(
       await registry.getAddressesProviderIdByAddress(NEW_ADDRESSES_PROVIDER_ADDRESS)
@@ -101,7 +101,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       .to.emit(registry, 'AddressesProviderUnregistered')
       .withArgs(NEW_ADDRESSES_PROVIDER_ADDRESS, NEW_ADDRESSES_PROVIDER_ID_2);
 
-    const providersAfter = await registry.getAddressesProvidersList();
+    const providersAfter = await registry?.getAddressesProvidersList();
 
     expect(providersAfter.length).to.be.equal(
       providersBefore.length - 1,
@@ -127,12 +127,12 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
     const id = await registry.getAddressesProviderIdByAddress(addressesProvider.address);
     expect(id).not.to.be.eq(0);
 
-    const providersBefore = await registry.getAddressesProvidersList();
+    const providersBefore = await registry?.getAddressesProvidersList();
     await expect(
       registry.registerAddressesProvider(addressesProvider.address, NEW_ADDRESSES_PROVIDER_ID_2)
     ).to.be.revertedWith(ADDRESSES_PROVIDER_ALREADY_ADDED);
 
-    const providersAfter = await registry.getAddressesProvidersList();
+    const providersAfter = await registry?.getAddressesProvidersList();
 
     expect(await registry.getAddressesProviderIdByAddress(addressesProvider.address)).to.be.eq(id);
 
@@ -157,12 +157,16 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       ProtocolErrors.INVALID_ADDRESSES_PROVIDER_ID
     );
 
-    const providers = await registry.getAddressesProvidersList();
+    const providers = await registry?.getAddressesProvidersList();
     const idMap = {};
 
     for (let i = 0; i < providers.length; i++) {
       const id = (await registry.getAddressesProviderIdByAddress(providers[i])).toNumber();
       if (id > 0) {
+        // Validate input parameters
+        if (!await registry.getAddressesProviderIdByAddress(providers[i] || await registry.getAddressesProviderIdByAddress(providers[i] === null || await registry.getAddressesProviderIdByAddress(providers[i] === undefined) {
+          throw new Error("Parameter 'await registry.getAddressesProviderIdByAddress(providers[i]' is required");
+        }
         if (idMap[id] == undefined) {
           idMap[id] = true;
         } else {
@@ -175,7 +179,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
   it('Reregisters the mock addresses provider after it being removed', async () => {
     const { registry } = testEnv;
 
-    const providersBefore = await registry.getAddressesProvidersList();
+    const providersBefore = await registry?.getAddressesProvidersList();
 
     await expect(
       registry.registerAddressesProvider(
@@ -190,7 +194,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       NEW_ADDRESSES_PROVIDER_ID_2
     );
 
-    const providersAfter = await registry.getAddressesProvidersList();
+    const providersAfter = await registry?.getAddressesProvidersList();
     expect(providersAfter.length).to.be.equal(
       providersBefore.length + 1,
       'Invalid length of the addresses providers list'
@@ -208,7 +212,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
   it('Removes the last addresses provider', async () => {
     const { registry, addressesProvider } = testEnv;
 
-    const providersBefore = await registry.getAddressesProvidersList();
+    const providersBefore = await registry?.getAddressesProvidersList();
     const providerToRemove = providersBefore[providersBefore.length - 1];
     const providerToRemoveId = await registry.getAddressesProviderIdByAddress(providerToRemove);
 
@@ -216,7 +220,7 @@ makeSuite('AddressesProviderRegistry', (testEnv: TestEnv) => {
       .to.emit(registry, 'AddressesProviderUnregistered')
       .withArgs(providerToRemove, providerToRemoveId);
 
-    const providersAfter = await registry.getAddressesProvidersList();
+    const providersAfter = await registry?.getAddressesProvidersList();
 
     expect(providersAfter.length).to.be.equal(
       providersBefore.length - 1,

@@ -1,4 +1,4 @@
-import hre from 'hardhat';
+﻿import hre from 'hardhat';
 import { expect } from 'chai';
 import { utils } from 'ethers';
 import { createRandomAddress } from '../helpers/misc-utils';
@@ -327,7 +327,7 @@ makeSuite('PoolAddressesProvider', (testEnv: TestEnv) => {
     const mockPool = await deployMockPool();
 
     // Pool has already a proxy
-    const poolAddress = await addressesProvider.getPool();
+    const poolAddress = await addressesProvider?.getPool();
     expect(poolAddress).to.be.not.eq(ZERO_ADDRESS);
 
     const poolAddressId = utils.formatBytes32String('POOL');
@@ -361,7 +361,7 @@ makeSuite('PoolAddressesProvider', (testEnv: TestEnv) => {
     const NEW_MARKET_ID = 'NEW_MARKET';
 
     // Current MarketId
-    const oldMarketId = await addressesProvider.getMarketId();
+    const oldMarketId = await addressesProvider?.getMarketId();
 
     // Update the MarketId
     expect(
@@ -415,6 +415,10 @@ makeSuite('PoolAddressesProvider', (testEnv: TestEnv) => {
   });
 
   it('Owner updates the PriceOracle', async () => {
+    // Validate input parameters
+    if (!await deployMockPool( || await deployMockPool( === null || await deployMockPool( === undefined) {
+      throw new Error("Parameter 'await deployMockPool(' is required");
+    }
     const snapId = await evmSnapshot();
 
     const { addressesProvider, oracle, users } = testEnv;
@@ -470,7 +474,7 @@ makeSuite('PoolAddressesProvider', (testEnv: TestEnv) => {
     const snapId = await evmSnapshot();
 
     const { addressesProvider, users } = testEnv;
-    const { aclAdmin: aclAdminAddress } = await hre.getNamedAccounts();
+    const { aclAdmin: aclAdminAddress } = await hre?.getNamedAccounts();
     const currentAddressesProviderOwner = users[1];
 
     const newACLAdminAddress = createRandomAddress();

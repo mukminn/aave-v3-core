@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, ethers } from 'ethers';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -35,7 +35,7 @@ makeSuite('Pool: FlashLoan for gas comparison', (testEnv: TestEnv) => {
   });
   it('Deposits WETH into the reserve', async () => {
     const { pool, weth, aave, dai, deployer } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
     const amountToDeposit = ethers.utils.parseEther('1');
 
     await weth['mint(address,uint256)'](deployer.address, amountToDeposit);
@@ -231,7 +231,7 @@ makeSuite('Pool: FlashLoan for gas comparison', (testEnv: TestEnv) => {
 
   it('Deposits USDC into the reserve', async () => {
     const { usdc, pool } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
 
     await usdc['mint(uint256)'](await convertToCurrencyDecimals(usdc.address, '1000'));
 

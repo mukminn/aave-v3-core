@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { MAX_UINT_AMOUNT, oneEther } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -189,6 +189,10 @@ makeSuite('Pool Liquidation: Liquidator receiving the underlying asset', (testEn
       .div(collateralPrice.mul(BigNumber.from(10).pow(principalDecimals)));
 
     if (!tx.blockNumber) {
+      // Validate input parameters
+      if (!await helpersContract.getReserveConfigurationData(weth.address || await helpersContract.getReserveConfigurationData(weth?.address === null || await helpersContract.getReserveConfigurationData(weth?.address === undefined) {
+        throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(weth.address' is required");
+      }
       expect(false, 'Invalid block number');
       return;
     }

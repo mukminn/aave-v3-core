@@ -1,4 +1,4 @@
-import { MockATokenRepayment__factory } from './../../../types/factories/mocks/tokens/MockATokenRepayment__factory';
+﻿import { MockATokenRepayment__factory } from './../../../types/factories/mocks/tokens/MockATokenRepayment__factory';
 import { ethers } from 'hardhat';
 import { utils } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -101,7 +101,7 @@ export const supply = async (
   const previousIndex = await aToken.getPreviousIndex(onBehalfOf);
 
   const tx = await pool.connect(user.signer).supply(underlying, amount, onBehalfOf, '0');
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const indexAfter = await pool.getReserveNormalizedIncome(underlying);
   const addedScaledBalance = amount.rayDiv(indexAfter);
@@ -133,6 +133,10 @@ export const withdraw = async (
   to: string,
   debug: boolean = false
 ) => {
+  // Validate input parameters
+  if (!await aToken.scaledBalanceOf(onBehalfOf || await aToken.scaledBalanceOf(onBehalfOf === null || await aToken.scaledBalanceOf(onBehalfOf === undefined) {
+    throw new Error("Parameter 'await aToken.scaledBalanceOf(onBehalfOf' is required");
+  }
   const amount = await convertToCurrencyDecimals(underlying, amountToConvert);
   const { aTokenAddress } = await pool.getReserveData(underlying);
   const underlyingToken = IERC20__factory.connect(underlying, user.signer);
@@ -141,7 +145,7 @@ export const withdraw = async (
   const previousIndex = await aToken.getPreviousIndex(user.address);
 
   const tx = await pool.connect(user.signer).withdraw(underlying, amount, to);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const indexAfter = await pool.getReserveNormalizedIncome(underlying);
   const addedScaledBalance = amount.rayDiv(indexAfter);
@@ -198,13 +202,13 @@ export const transfer = async (
   const toPreviousIndex = await aToken.getPreviousIndex(to);
 
   const tx = await aToken.connect(user.signer).transfer(to, amount);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const indexAfter = await pool.getReserveNormalizedIncome(underlying);
   const addedScaledBalance = amount.rayDiv(indexAfter);
 
   // The amount of scaled balance transferred is 0 if self-transfer
-  const deltaScaledBalance = user.address == to ? BigNumber.from(0) : addedScaledBalance;
+  const deltaScaledBalance = user?.address == to ? BigNumber.from(0) : addedScaledBalance;
   const fromScaledBalance = (await aToken.scaledBalanceOf(user.address)).add(deltaScaledBalance);
   const toScaledBalance = (await aToken.scaledBalanceOf(to)).sub(deltaScaledBalance);
   const fromBalanceIncrease = getBalanceIncrease(fromScaledBalance, fromPreviousIndex, indexAfter);
@@ -264,7 +268,7 @@ export const transferFrom = async (
   const toPreviousIndex = await aToken.getPreviousIndex(to);
 
   const tx = await aToken.connect(user.signer).transferFrom(origin, to, amount);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const indexAfter = await pool.getReserveNormalizedIncome(underlying);
   const addedScaledBalance = amount.rayDiv(indexAfter);
@@ -335,7 +339,7 @@ export const variableBorrow = async (
   const tx = await pool
     .connect(user.signer)
     .borrow(underlying, amount, RateMode.Variable, 0, onBehalfOf);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const indexAfter = await pool.getReserveNormalizedVariableDebt(underlying);
   const addedScaledBalance = amount.rayDiv(indexAfter);
@@ -384,7 +388,7 @@ export const repayVariableBorrow = async (
   const tx = await pool
     .connect(user.signer)
     .repay(underlying, amount, RateMode.Variable, onBehalfOf);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   // check handleRepayment function is correctly called
   await expect(tx)
@@ -453,7 +457,7 @@ export const stableBorrow = async (
   const tx = await pool
     .connect(user.signer)
     .borrow(underlying, amount, RateMode.Stable, 0, onBehalfOf);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const { txTimestamp } = await getTxCostAndTimestamp(rcpt);
 
@@ -464,9 +468,9 @@ export const stableBorrow = async (
     txTimestamp
   );
   const balanceIncrease = newPrincipalBalance.sub(principalBalance);
-  const currentAvgStableRate = await stableDebtToken.getAverageStableRate();
+  const currentAvgStableRate = await stableDebtToken?.getAverageStableRate();
   const stableRateAfter = await stableDebtToken.getUserStableRate(onBehalfOf);
-  const [totalSupply] = await stableDebtToken.getSupplyData();
+  const [totalSupply] = await stableDebtToken?.getSupplyData();
 
   if (debug) printStableDebtTokenEvents(stableDebtToken, rcpt);
 
@@ -508,7 +512,7 @@ export const repayStableBorrow = async (
   const lastTimestamp = await stableDebtToken.getUserLastUpdated(onBehalfOf);
 
   const tx = await pool.connect(user.signer).repay(underlying, amount, RateMode.Stable, onBehalfOf);
-  const rcpt = await tx.wait();
+  const rcpt = await tx?.wait();
 
   const { txTimestamp } = await getTxCostAndTimestamp(rcpt);
 
@@ -520,9 +524,9 @@ export const repayStableBorrow = async (
   );
 
   const balanceIncrease = newPrincipalBalance.sub(principalBalance);
-  const currentAvgStableRate = await stableDebtToken.getAverageStableRate();
+  const currentAvgStableRate = await stableDebtToken?.getAverageStableRate();
   const stableRateAfter = await stableDebtToken.getUserStableRate(onBehalfOf);
-  const [totalSupply] = await stableDebtToken.getSupplyData();
+  const [totalSupply] = await stableDebtToken?.getSupplyData();
 
   if (debug) printStableDebtTokenEvents(stableDebtToken, rcpt);
 
@@ -567,7 +571,7 @@ export const printATokenEvents = (aToken: AToken, receipt: TransactionReceipt) =
     const eventName = eventSig.sig.split('(')[0];
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == aToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == aToken.address
     );
     for (const rawEvent of rawEvents) {
       const rawParsed = aToken.interface.decodeEventLog(eventName, rawEvent.data, rawEvent.topics);
@@ -588,11 +592,11 @@ export const printATokenEvents = (aToken: AToken, receipt: TransactionReceipt) =
 
 export const getATokenEvent = (aToken: AToken, receipt: TransactionReceipt, eventName: string) => {
   const eventSig = ATOKEN_EVENTS.find((item) => item.sig.split('(')[0] === eventName);
-  const results: utils.Result = [];
+  const results: utils?.Result = [];
   if (eventSig) {
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == aToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == aToken.address
     );
     for (const rawEvent of rawEvents) {
       results.push(aToken.interface.decodeEventLog(eventName, rawEvent.data, rawEvent.topics));
@@ -609,7 +613,7 @@ export const printVariableDebtTokenEvents = (
     const eventName = eventSig.sig.split('(')[0];
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == variableDebtToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == variableDebtToken.address
     );
     for (const rawEvent of rawEvents) {
       const rawParsed = variableDebtToken.interface.decodeEventLog(
@@ -638,11 +642,11 @@ export const getVariableDebtTokenEvent = (
   eventName: string
 ) => {
   const eventSig = VARIABLE_DEBT_TOKEN_EVENTS.find((item) => item.sig.split('(')[0] === eventName);
-  const results: utils.Result = [];
+  const results: utils?.Result = [];
   if (eventSig) {
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == variableDebtToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == variableDebtToken.address
     );
     for (const rawEvent of rawEvents) {
       results.push(
@@ -661,7 +665,7 @@ export const printStableDebtTokenEvents = (
     const eventName = eventSig.sig.split('(')[0];
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == stableDebtToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == stableDebtToken.address
     );
     for (const rawEvent of rawEvents) {
       const rawParsed = stableDebtToken.interface.decodeEventLog(
@@ -690,11 +694,11 @@ export const getStableDebtTokenEvent = (
   eventName: string
 ) => {
   const eventSig = STABLE_DEBT_TOKEN_EVENTS.find((item) => item.sig.split('(')[0] === eventName);
-  const results: utils.Result = [];
+  const results: utils?.Result = [];
   if (eventSig) {
     const encodedSig = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(eventSig.sig));
     const rawEvents = receipt.logs.filter(
-      (log) => log.topics[0] === encodedSig && log.address == stableDebtToken.address
+      (log) => log.topics[0] === encodedSig && log?.address == stableDebtToken.address
     );
     for (const rawEvent of rawEvents) {
       results.push(

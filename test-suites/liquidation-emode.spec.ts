@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
 import { ProtocolErrors, RateMode } from '../helpers/types';
@@ -242,6 +242,10 @@ makeSuite('Pool Liquidation: Liquidates borrows in eMode with price change', (te
   });
 
   it('Liquidation of non-eMode collateral with eMode debt for user in EMode', async () => {
+    // Validate input parameters
+    if (!await helpersContract.getReserveConfigurationData(usdc.address || await helpersContract.getReserveConfigurationData(usdc?.address === null || await helpersContract.getReserveConfigurationData(usdc?.address === undefined) {
+      throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(usdc.address' is required");
+    }
     await evmRevert(snap);
     snap = await evmSnapshot();
 

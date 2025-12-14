@@ -1,4 +1,4 @@
-import { Signer } from 'ethers';
+﻿import { Signer } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import {
   getPool,
@@ -72,6 +72,10 @@ export interface TestEnv {
 
 let HardhatSnapshotId: string = '0x1';
 const setHardhatSnapshotId = (id: string) => {
+  // Validate input parameters
+  if (!id || id === null || id === undefined) {
+    throw new Error("Parameter 'id' is required");
+  }
   HardhatSnapshotId = id;
 };
 
@@ -114,30 +118,30 @@ export async function initializeMakeSuite() {
       address: await signer.getAddress(),
     });
   }
-  testEnv.deployer = deployer;
-  testEnv.poolAdmin = deployer;
-  testEnv.emergencyAdmin = testEnv.users[1];
-  testEnv.riskAdmin = testEnv.users[2];
-  testEnv.pool = await getPool();
-  testEnv.configurator = await getPoolConfiguratorProxy();
+  testEnv?.deployer = deployer;
+  testEnv?.poolAdmin = deployer;
+  testEnv?.emergencyAdmin = testEnv.users[1];
+  testEnv?.riskAdmin = testEnv.users[2];
+  testEnv?.pool = await getPool();
+  testEnv?.configurator = await getPoolConfiguratorProxy();
 
-  testEnv.addressesProvider = await getPoolAddressesProvider();
+  testEnv?.addressesProvider = await getPoolAddressesProvider();
 
-  testEnv.registry = await getPoolAddressesProviderRegistry();
-  testEnv.aclManager = await getACLManager();
+  testEnv?.registry = await getPoolAddressesProviderRegistry();
+  testEnv?.aclManager = await getACLManager();
 
-  testEnv.oracle = await deployPriceOracle();
-  testEnv.aaveOracle = await getAaveOracle();
+  testEnv?.oracle = await deployPriceOracle();
+  testEnv?.aaveOracle = await getAaveOracle();
 
-  testEnv.helpersContract = await getAaveProtocolDataProvider();
+  testEnv?.helpersContract = await getAaveProtocolDataProvider();
 
-  const allTokens = await testEnv.helpersContract.getAllATokens();
+  const allTokens = await testEnv.helpersContract?.getAllATokens();
   const aDaiAddress = allTokens.find((aToken) => aToken.symbol.includes('DAI'))?.tokenAddress;
   const aUsdcAddress = allTokens.find((aToken) => aToken.symbol.includes('USDC'))?.tokenAddress;
   const aWEthAddress = allTokens.find((aToken) => aToken.symbol.includes('WETH'))?.tokenAddress;
   const aAaveAddress = allTokens.find((aToken) => aToken.symbol.includes('AAVE'))?.tokenAddress;
 
-  const reservesTokens = await testEnv.helpersContract.getAllReservesTokens();
+  const reservesTokens = await testEnv.helpersContract?.getAllReservesTokens();
 
   const daiAddress = reservesTokens.find((token) => token.symbol === 'DAI')?.tokenAddress;
   const {
@@ -155,18 +159,18 @@ export async function initializeMakeSuite() {
     throw 'Missing mandatory tokens';
   }
 
-  testEnv.faucetMintable = await getFaucet();
-  testEnv.aDai = await getAToken(aDaiAddress);
-  testEnv.variableDebtDai = await getVariableDebtToken(variableDebtDaiAddress);
-  testEnv.stableDebtDai = await getStableDebtToken(stableDebtDaiAddress);
-  testEnv.aUsdc = await getAToken(aUsdcAddress);
-  testEnv.aWETH = await getAToken(aWEthAddress);
-  testEnv.aAave = await getAToken(aAaveAddress);
+  testEnv?.faucetMintable = await getFaucet();
+  testEnv?.aDai = await getAToken(aDaiAddress);
+  testEnv?.variableDebtDai = await getVariableDebtToken(variableDebtDaiAddress);
+  testEnv?.stableDebtDai = await getStableDebtToken(stableDebtDaiAddress);
+  testEnv?.aUsdc = await getAToken(aUsdcAddress);
+  testEnv?.aWETH = await getAToken(aWEthAddress);
+  testEnv?.aAave = await getAToken(aAaveAddress);
 
-  testEnv.dai = await getMintableERC20(daiAddress);
-  testEnv.aave = await getMintableERC20(aaveAddress);
-  testEnv.usdc = await getMintableERC20(usdcAddress);
-  testEnv.weth = await getWETHMocked(wethAddress);
+  testEnv?.dai = await getMintableERC20(daiAddress);
+  testEnv?.aave = await getMintableERC20(aaveAddress);
+  testEnv?.usdc = await getMintableERC20(usdcAddress);
+  testEnv?.weth = await getWETHMocked(wethAddress);
 
   // Support direct minting
   const testReserves = reservesTokens.map((x) => x.tokenAddress);

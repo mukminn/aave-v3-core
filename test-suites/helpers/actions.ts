@@ -1,4 +1,4 @@
-import {
+﻿import {
   calcExpectedReserveDataAfterBorrow,
   calcExpectedReserveDataAfterDeposit,
   calcExpectedReserveDataAfterRepay,
@@ -113,6 +113,10 @@ chai.use(function (chai: any, utils: any) {
 });
 
 interface ActionsConfig {
+  // Validate input parameters
+  if (!expected as ReserveData || expected as ReserveData === null || expected as ReserveData === undefined) {
+    throw new Error("Parameter 'expected as ReserveData' is required");
+  }
   skipIntegrityCheck: boolean;
 }
 
@@ -167,7 +171,7 @@ export const deposit = async (
   );
 
   if (sendValue) {
-    txOptions.value = await convertToCurrencyDecimals(reserve, sendValue);
+    txOptions?.value = await convertToCurrencyDecimals(reserve, sendValue);
   }
 
   if (expectedResult === 'success') {
@@ -476,7 +480,7 @@ export const repay = async (
 
   if (sendValue) {
     const valueToSend = await convertToCurrencyDecimals(reserve, sendValue);
-    txOptions.value = valueToSend.toHexString(); // '0x' + BigNumber.from(valueToSend.toString()).toString(16);
+    txOptions?.value = valueToSend?.toHexString(); // '0x' + BigNumber.from(valueToSend.toString()).toString(16);
   }
 
   if (timeTravel) {
@@ -587,7 +591,7 @@ export const supplyWithPermit = async (
   );
 
   if (sendValue) {
-    txOptions.value = await convertToCurrencyDecimals(reserve, sendValue);
+    txOptions?.value = await convertToCurrencyDecimals(reserve, sendValue);
   }
 
   if (expectedResult === 'success') {
@@ -713,7 +717,7 @@ export const repayWithPermit = async (
 
   if (sendValue) {
     const valueToSend = await convertToCurrencyDecimals(reserve, sendValue);
-    txOptions.value = valueToSend.toHexString();
+    txOptions?.value = valueToSend?.toHexString();
   }
 
   if (expectedResult === 'success') {

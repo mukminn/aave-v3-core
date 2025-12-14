@@ -1,4 +1,4 @@
-import { DelegationAwareAToken, MintableDelegationERC20 } from '../types';
+﻿import { DelegationAwareAToken, MintableDelegationERC20 } from '../types';
 import { expect } from 'chai';
 import { ZERO_ADDRESS } from '../helpers/constants';
 import { ProtocolErrors } from '../helpers/types';
@@ -42,7 +42,7 @@ makeSuite('AToken: DelegationAwareAToken', (testEnv: TestEnv) => {
       .to.emit(delegationAToken, 'DelegateUnderlyingTo')
       .withArgs(users[2].address);
 
-    const delegateeAddress = await delegationERC20.delegatee();
+    const delegateeAddress = await delegationERC20?.delegatee();
 
     expect(delegateeAddress).to.be.equal(users[2].address);
   });

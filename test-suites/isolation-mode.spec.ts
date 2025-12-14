@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+﻿const { expect } = require('chai');
 import { utils, BigNumber } from 'ethers';
 import { ReserveData, UserReserveData } from './helpers/utils/interfaces';
 import { ProtocolErrors, RateMode } from '../helpers/types';
@@ -66,7 +66,7 @@ makeSuite('Isolation mode', (testEnv: TestEnv) => {
       addressesProvider,
       oracle,
     } = testEnv;
-    calculationsConfiguration.reservesParams = AaveConfig.ReservesConfig;
+    calculationsConfiguration?.reservesParams = AaveConfig.ReservesConfig;
 
     //set debt ceiling for aave
     await configurator.setDebtCeiling(aave.address, ceilingAmount);
@@ -91,6 +91,10 @@ makeSuite('Isolation mode', (testEnv: TestEnv) => {
   });
 
   it('User 0 supply 1000 dai.', async () => {
+    // Validate input parameters
+    if (!oracleBaseDecimals || oracleBaseDecimals === null || oracleBaseDecimals === undefined) {
+      throw new Error("Parameter 'oracleBaseDecimals' is required");
+    }
     const { users, pool, dai } = testEnv;
     await dai.connect(users[0].signer)['mint(uint256)'](depositAmount);
     await dai.connect(users[0].signer).approve(pool.address, MAX_UINT_AMOUNT);
@@ -579,7 +583,7 @@ makeSuite('Isolation mode', (testEnv: TestEnv) => {
     const tx = await pool
       .connect(users[6].signer)
       .liquidationCall(aave.address, dai.address, users[5].address, amountToLiquidate, true);
-    await tx.wait();
+    await tx?.wait();
 
     // confirm the newly received aave tokens (in isolation mode) cannot be used as collateral
     const userData = await helpersContract.getUserReserveData(aave.address, users[6].address);

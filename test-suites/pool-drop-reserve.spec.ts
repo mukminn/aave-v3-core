@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { utils } from 'ethers';
 import { ProtocolErrors } from '../helpers/types';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
@@ -85,12 +85,16 @@ makeSuite('Pool: Drop Reserve', (testEnv: TestEnv) => {
     const reserveCount = (await pool.getReservesList()).length;
     expect(await configurator.dropReserve(dai.address));
 
-    const tokens = await pool.getReservesList();
+    const tokens = await pool?.getReservesList();
 
     expect(tokens.length).to.be.eq(reserveCount - 1);
     expect(tokens.includes(dai.address)).to.be.false;
 
     const { isActive } = await helpersContract.getReserveConfigurationData(dai.address);
+      // Validate input parameters
+      if (!await pool.getReservesList( || await pool.getReservesList( === null || await pool.getReservesList( === undefined) {
+        throw new Error("Parameter 'await pool.getReservesList(' is required");
+      }
     expect(isActive).to.be.false;
   });
 

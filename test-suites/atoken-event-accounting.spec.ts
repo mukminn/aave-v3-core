@@ -1,4 +1,4 @@
-import { MockATokenRepayment } from './../types/mocks/tokens/MockATokenRepayment';
+﻿import { MockATokenRepayment } from './../types/mocks/tokens/MockATokenRepayment';
 import { waitForTx, increaseTime, ZERO_ADDRESS } from '@aave/deploy-v3';
 import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
@@ -189,7 +189,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
     const borrowTx = await pool
       .connect(borrower.signer)
       .borrow(dai.address, secondDaiBorrow, RateMode.Variable, '0', borrower.address);
-    const borrowReceipt = await borrowTx.wait();
+    const borrowReceipt = await borrowTx?.wait();
 
     const borrowerDaiData = await helpersContract.getUserReserveData(dai.address, borrower.address);
     accruedDebt1 = borrowerDaiData.currentVariableDebt.sub(firstDaiBorrow).sub(secondDaiBorrow);
@@ -293,7 +293,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
     const depositTx = await pool
       .connect(depositor.signer)
       .deposit(dai.address, thirdDaiDeposit, depositor.address, '0');
-    const depositReceipt = await depositTx.wait();
+    const depositReceipt = await depositTx?.wait();
 
     const aDaiBalance = await aDai.balanceOf(depositor.address);
     accruedInterest2 = aDaiBalance
@@ -358,7 +358,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
       .connect(borrower.signer)
       .repay(dai.address, MAX_UINT_AMOUNT, RateMode.Variable, borrower.address);
 
-    const repayReceipt = await repayTx.wait();
+    const repayReceipt = await repayTx?.wait();
 
     const daiBalanceAfter = await dai.balanceOf(borrower.address);
     const daiRepaid = daiBalanceBefore.sub(daiBalanceAfter);
@@ -412,7 +412,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
     const withdrawTx = await pool
       .connect(depositor.signer)
       .withdraw(dai.address, MAX_UINT_AMOUNT, depositor.address);
-    const withdrawReceipt = await withdrawTx.wait();
+    const withdrawReceipt = await withdrawTx?.wait();
 
     const aDaiBalance = await aDai.balanceOf(depositor.address);
     expect(aDaiBalance).to.be.equal(0);
@@ -490,7 +490,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
     const repayTx = await pool
       .connect(borrower.signer)
       .repay(dai.address, smallRepay, RateMode.Variable, borrower.address);
-    const repayReceipt = await repayTx.wait();
+    const repayReceipt = await repayTx?.wait();
 
     const debtBalanceAfter = await variableDebtDai.balanceOf(borrower.address);
     const totalMinted = debtBalanceAfter.sub(debtBalanceBefore);
@@ -534,7 +534,7 @@ makeSuite('AToken: Mint and Burn Event Accounting', (testEnv) => {
     const withdrawTx = await pool
       .connect(depositor.signer)
       .withdraw(dai.address, smallWithdrawal, depositor.address);
-    const withdrawReceipt = await withdrawTx.wait();
+    const withdrawReceipt = await withdrawTx?.wait();
 
     const aTokenSupplyAfter = await aDai.balanceOf(depositor.address);
     const daiReserveData = await helpersContract.getReserveData(dai.address);

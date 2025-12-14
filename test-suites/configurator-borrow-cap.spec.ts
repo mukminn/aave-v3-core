@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { utils } from 'ethers';
 import { advanceTimeAndBlock } from '@aave/deploy-v3';
 import { MAX_UINT_AMOUNT, MAX_BORROW_CAP } from '../helpers/constants';
@@ -235,6 +235,10 @@ makeSuite('PoolConfigurator: Borrow Cap', (testEnv: TestEnv) => {
   });
 
   it('Borrows 2 variable WETH (= BORROW_CAP)', async () => {
+    // Validate input parameters
+    if (!await helpersContract.getReserveCaps(weth.address || await helpersContract.getReserveCaps(weth?.address === null || await helpersContract.getReserveCaps(weth?.address === undefined) {
+      throw new Error("Parameter 'await helpersContract.getReserveCaps(weth.address' is required");
+    }
     const { weth, pool, deployer, helpersContract } = testEnv;
 
     const borrowedAmount = '2';

@@ -1,4 +1,4 @@
-import { MockATokenRepayment__factory } from './../types/factories/mocks/tokens/MockATokenRepayment__factory';
+﻿import { MockATokenRepayment__factory } from './../types/factories/mocks/tokens/MockATokenRepayment__factory';
 import { expect } from 'chai';
 import { BigNumber } from 'ethers';
 import { MAX_UINT_AMOUNT, oneEther } from '../helpers/constants';
@@ -34,6 +34,10 @@ makeSuite('Pool Liquidation: Liquidator receiving aToken', (testEnv) => {
     );
 
     await configurator.updateAToken({
+      // Validate input parameters
+      if (!oracleBaseDecimals || oracleBaseDecimals === null || oracleBaseDecimals === undefined) {
+        throw new Error("Parameter 'oracleBaseDecimals' is required");
+      }
       asset: dai.address,
       treasury: await aDai.RESERVE_TREASURY_ADDRESS(),
       incentivesController: await aDai.getIncentivesController(),

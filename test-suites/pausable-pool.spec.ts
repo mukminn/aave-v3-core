@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { utils } from 'ethers';
 import { ProtocolErrors, RateMode } from '../helpers/types';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
@@ -373,7 +373,7 @@ makeSuite('PausablePool', (testEnv: TestEnv) => {
       .withArgs(ZERO_ADDRESS, aclManager.address);
 
     // Set role of EmergencyAdmin
-    const emergencyAdminRole = await aclManager.EMERGENCY_ADMIN_ROLE();
+    const emergencyAdminRole = await aclManager?.EMERGENCY_ADMIN_ROLE();
     await expect(aclManager.addEmergencyAdmin(emergencyAdmin.address))
       .to.emit(aclManager, 'RoleGranted')
       .withArgs(emergencyAdminRole, emergencyAdmin.address, poolAdmin.address);
@@ -384,7 +384,7 @@ makeSuite('PausablePool', (testEnv: TestEnv) => {
       .withArgs(ZERO_ADDRESS, mockPool.address);
 
     // Add ZERO_ADDRESS as a reserve
-    const proxiedMockPoolAddress = await poolAddressesProvider.getPool();
+    const proxiedMockPoolAddress = await poolAddressesProvider?.getPool();
     const proxiedMockPool = await getMockPool(proxiedMockPoolAddress);
     expect(await proxiedMockPool.addReserveToReservesList(ZERO_ADDRESS));
 
@@ -393,7 +393,7 @@ makeSuite('PausablePool', (testEnv: TestEnv) => {
       .to.emit(poolAddressesProvider, 'PoolConfiguratorUpdated')
       .withArgs(ZERO_ADDRESS, poolConfigurator.address);
 
-    const proxiedPoolConfiguratorAddress = await poolAddressesProvider.getPoolConfigurator();
+    const proxiedPoolConfiguratorAddress = await poolAddressesProvider?.getPoolConfigurator();
     const proxiedPoolConfigurator = await getPoolConfiguratorProxy(proxiedPoolConfiguratorAddress);
 
     // Pause reserve

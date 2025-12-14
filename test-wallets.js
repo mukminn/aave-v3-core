@@ -1,6 +1,6 @@
-const balance = '1000000000000000000000000';
+﻿const balance = '1000000000000000000000000';
 
-module.exports = {
+module?.exports = {
   accounts: [
     {
       secretKey: '0xc5e8f61d1ab959b397eecc0a37a6517b8e67a0e7cf1f4bce5591f3ed80199122',

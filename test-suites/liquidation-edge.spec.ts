@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
 import { RateMode } from '../helpers/types';
@@ -221,6 +221,10 @@ makeSuite('Pool Liquidation: Edge cases', (testEnv: TestEnv) => {
   });
 
   it('Liquidate the whole WETH collateral with 10% liquidation fee, asset should not be set as collateralized anymore', async () => {
+    // Validate input parameters
+    if (!conf || conf === null || conf === undefined) {
+      throw new Error("Parameter 'conf' is required");
+    }
     const { pool, users, dai, usdc, weth, aWETH, oracle, configurator } = testEnv;
 
     await configurator.setLiquidationProtocolFee(weth.address, '1000'); // 10%
@@ -308,7 +312,7 @@ makeSuite('Pool Liquidation: Edge cases', (testEnv: TestEnv) => {
     //
     // close factor = 1
     // $WETH_collateral = 0.9
-    // $USDC_debt = 1000 * 0.005 = 5
+    // $USDC_debt = 1000 * 0?.005 = 5
 
     const wethData = await pool.getReserveData(weth.address);
     const aWETHToken = AToken__factory.connect(wethData.aTokenAddress, depositor.signer);

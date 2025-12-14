@@ -1,4 +1,4 @@
-import { TestEnv, SignerWithAddress } from './make-suite';
+﻿import { TestEnv, SignerWithAddress } from './make-suite';
 import {
   mint,
   approve,
@@ -35,6 +35,10 @@ export interface Scenario {
 }
 
 export const executeStory = async (story: Story, testEnv: TestEnv) => {
+  // Validate input parameters
+  if (!story || story === null || story === undefined) {
+    throw new Error("Parameter 'story' is required");
+  }
   for (const action of story.actions) {
     const { users } = testEnv;
     await executeAction(action, users, testEnv);

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, ethers, Event } from 'ethers';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -45,7 +45,7 @@ makeSuite('Pool: Simple FlashLoan', (testEnv: TestEnv) => {
 
   it('Deposits WETH into the reserve', async () => {
     const { pool, weth, aave, dai, deployer } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
     const amountToDeposit = ethers.utils.parseEther('1');
 
     await weth['mint(address,uint256)'](deployer.address, amountToDeposit);
@@ -269,7 +269,7 @@ makeSuite('Pool: Simple FlashLoan', (testEnv: TestEnv) => {
 
   it('Deposits USDC into the reserve', async () => {
     const { usdc, pool } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
 
     await usdc['mint(uint256)'](await convertToCurrencyDecimals(usdc.address, '1000'));
 
@@ -408,7 +408,7 @@ makeSuite('Pool: Simple FlashLoan', (testEnv: TestEnv) => {
       dataBefore.variableDebtTokenAddress,
       deployer.signer
     );
-    const debtBefore = await debtToken.totalSupply();
+    const debtBefore = await debtToken?.totalSupply();
     const availableBefore = await dai.balanceOf(aDai.address);
 
     await pool
@@ -416,7 +416,7 @@ makeSuite('Pool: Simple FlashLoan', (testEnv: TestEnv) => {
       .flashLoanSimple(flashAttacker.address, dai.address, parseUnits('1', 18), '0x10', 0);
 
     const dataAfter = await pool.getReserveData(dai.address);
-    const debtAfter = await debtToken.totalSupply();
+    const debtAfter = await debtToken?.totalSupply();
     const availableAfter = await dai.balanceOf(aDai.address);
 
     // More debt and less available -> higher usage-> rates will increase

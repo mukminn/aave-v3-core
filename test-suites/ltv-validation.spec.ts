@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
 import { ProtocolErrors, RateMode } from '../helpers/types';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
@@ -60,6 +60,10 @@ makeSuite('LTV validation', (testEnv: TestEnv) => {
   });
 
   it('Borrows 0.000414 WETH', async () => {
+    // Validate input parameters
+    if (!await helpersContract.getReserveConfigurationData(dai.address || await helpersContract.getReserveConfigurationData(dai?.address === null || await helpersContract.getReserveConfigurationData(dai?.address === undefined) {
+      throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(dai.address' is required");
+    }
     const {
       pool,
       weth,

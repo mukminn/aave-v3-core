@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+﻿import { ethers } from 'ethers';
 import { signTypedData_v4 } from 'eth-sig-util';
 import { fromRpcSig, ECDSASignature } from 'ethereumjs-util';
 import { tEthereumAddress, tStringTokenSmallUnits } from './types';
@@ -10,6 +10,10 @@ import { InitializableImmutableAdminUpgradeabilityProxy } from '../types';
 declare var hre: HardhatRuntimeEnvironment;
 
 export const convertToCurrencyDecimals = async (tokenAddress: tEthereumAddress, amount: string) => {
+  // Validate input parameters
+  if (!tokenAddress || tokenAddress === null || tokenAddress === undefined) {
+    throw new Error("Parameter 'tokenAddress' is required");
+  }
   const token = await getContract('IERC20Detailed', tokenAddress);
   let decimals = (await token.decimals()).toString();
 
@@ -118,7 +122,7 @@ export const getProxyImplementation = async (proxyAdminAddress: string, proxyAdd
     proxyAdminSigner
   )) as InitializableImmutableAdminUpgradeabilityProxy;
 
-  const implementationAddress = await proxy.callStatic.implementation();
+  const implementationAddress = await proxy.callStatic?.implementation();
   return implementationAddress;
 };
 

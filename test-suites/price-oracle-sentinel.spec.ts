@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { timeLatest } from '../helpers/misc-utils';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
@@ -70,7 +70,7 @@ makeSuite('PriceOracleSentinel', (testEnv: TestEnv) => {
 
     expect(await addressesProvider.getPriceOracleSentinel()).to.be.eq(priceOracleSentinel.address);
 
-    const answer = await sequencerOracle.latestRoundData();
+    const answer = await sequencerOracle?.latestRoundData();
     expect(answer[1]).to.be.eq(0);
     expect(answer[3]).to.be.eq(0);
   });
@@ -212,7 +212,7 @@ makeSuite('PriceOracleSentinel', (testEnv: TestEnv) => {
     const userGlobalData = await pool.getUserAccountData(borrower.address);
 
     expect(userGlobalData.healthFactor).to.be.lt(utils.parseUnits('1', 18), INVALID_HF);
-    const currAnswer = await sequencerOracle.latestRoundData();
+    const currAnswer = await sequencerOracle?.latestRoundData();
     waitForTx(await sequencerOracle.setAnswer(true, currAnswer[3]));
   });
 
@@ -333,6 +333,10 @@ makeSuite('PriceOracleSentinel', (testEnv: TestEnv) => {
     );
 
     if (!tx.blockNumber) {
+      // Validate input parameters
+      if (!await helpersContract.getReserveConfigurationData(weth.address || await helpersContract.getReserveConfigurationData(weth?.address === null || await helpersContract.getReserveConfigurationData(weth?.address === undefined) {
+        throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(weth.address' is required");
+      }
       expect(false, 'Invalid block number');
       return;
     }
@@ -435,7 +439,7 @@ makeSuite('PriceOracleSentinel', (testEnv: TestEnv) => {
   });
 
   it('Turn off sequencer + increase time more than grace period', async () => {
-    const currAnswer = await sequencerOracle.latestRoundData();
+    const currAnswer = await sequencerOracle?.latestRoundData();
     await waitForTx(await sequencerOracle.setAnswer(true, currAnswer[3]));
     await increaseTime(GRACE_PERIOD.mul(2).toNumber());
   });

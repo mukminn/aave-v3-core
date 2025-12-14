@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+﻿const { expect } = require('chai');
 import { BigNumber, Event, utils } from 'ethers';
 import AaveConfig from '@aave/deploy-v3/dist/markets/test';
 import { waitForTx, advanceTimeAndBlock } from '@aave/deploy-v3';
@@ -40,7 +40,7 @@ makeSuite('BridgeLogic: Testing with borrows', (testEnv: TestEnv) => {
   let aclManager: ACLManager;
 
   before(async () => {
-    calculationsConfiguration.reservesParams = AaveConfig.ReservesConfig;
+    calculationsConfiguration?.reservesParams = AaveConfig.ReservesConfig;
 
     const { users, poolAdmin, configurator } = testEnv;
 

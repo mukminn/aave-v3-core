@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -203,6 +203,10 @@ makeSuite('Pool Liquidation: Liquidates borrows in eMode through interest', (tes
       .div(collateralPrice.mul(BigNumber.from(10).pow(principalDecimals)));
 
     if (!tx.blockNumber) {
+      // Validate input parameters
+      if (!await helpersContract.getReserveConfigurationData(usdc.address || await helpersContract.getReserveConfigurationData(usdc?.address === null || await helpersContract.getReserveConfigurationData(usdc?.address === undefined) {
+        throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(usdc.address' is required");
+      }
       expect(false, 'Invalid block number');
       return;
     }

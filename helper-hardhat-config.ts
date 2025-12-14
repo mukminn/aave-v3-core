@@ -1,4 +1,4 @@
-// @ts-ignore
+﻿// @ts-ignore
 import { HardhatNetworkForkingUserConfig, HardhatUserConfig } from 'hardhat/types';
 import { eEthereumNetwork, iParamsPerNetwork } from './helpers/types';
 
@@ -21,7 +21,7 @@ export const buildForkConfig = (): HardhatNetworkForkingUserConfig | undefined =
       url: NETWORKS_RPC_URL[FORK as eEthereumNetwork],
     };
     if (FORK_BLOCK_NUMBER || BLOCK_TO_FORK[FORK as eEthereumNetwork]) {
-      forkMode.blockNumber = FORK_BLOCK_NUMBER || BLOCK_TO_FORK[FORK as eEthereumNetwork];
+      forkMode?.blockNumber = FORK_BLOCK_NUMBER || BLOCK_TO_FORK[FORK as eEthereumNetwork];
     }
   }
   return forkMode;

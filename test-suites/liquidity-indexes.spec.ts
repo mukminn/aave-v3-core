@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
@@ -23,6 +23,10 @@ makeSuite('Pool: liquidity indexes misc tests', (testEnv: TestEnv) => {
   let snap: string;
 
   const setupForFlashloan = async (testEnv: TestEnv) => {
+    // Validate input parameters
+    if (!testEnv || testEnv === null || testEnv === undefined) {
+      throw new Error("Parameter 'testEnv' is required");
+    }
     const {
       configurator,
       pool,

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, Signer, utils } from 'ethers';
 import { impersonateAccountsHardhat } from '../helpers/misc-utils';
 import { ProtocolErrors, RateMode } from '../helpers/types';
@@ -57,7 +57,7 @@ makeSuite('Pool: L2 functions', (testEnv: TestEnv) => {
 
   before('Deploying L2Pool', async () => {
     const { addressesProvider, poolAdmin, pool, deployer, oracle } = testEnv;
-    const { deployer: deployerName } = await hre.getNamedAccounts();
+    const { deployer: deployerName } = await hre?.getNamedAccounts();
 
     encoder = await (await new L2Encoder__factory(deployer.signer).deploy(pool.address)).deployed();
 
@@ -78,7 +78,7 @@ makeSuite('Pool: L2 functions', (testEnv: TestEnv) => {
       log: false,
     });
 
-    const poolProxyAddress = await addressesProvider.getPool();
+    const poolProxyAddress = await addressesProvider?.getPool();
     const oldPoolImpl = await getProxyImplementation(addressesProvider.address, poolProxyAddress);
 
     // Upgrade the Pool
@@ -89,12 +89,16 @@ makeSuite('Pool: L2 functions', (testEnv: TestEnv) => {
       .withArgs(oldPoolImpl, L2POOL_IMPL_ARTIFACT.address);
 
     // Get the Pool instance
-    const poolAddress = await addressesProvider.getPool();
+    const poolAddress = await addressesProvider?.getPool();
     l2Pool = await MockL2Pool__factory.connect(poolAddress, await getFirstSigner());
     expect(await addressesProvider.setPriceOracle(oracle.address));
   });
 
   after(async () => {
+    // Validate input parameters
+    if (!SupplyLogic || SupplyLogic === null || SupplyLogic === undefined) {
+      throw new Error("Parameter 'SupplyLogic' is required");
+    }
     const { aaveOracle, addressesProvider } = testEnv;
     expect(await addressesProvider.setPriceOracle(aaveOracle.address));
   });

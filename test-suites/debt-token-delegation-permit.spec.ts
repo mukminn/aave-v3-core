@@ -1,4 +1,4 @@
-import { evmSnapshot, evmRevert } from '@aave/deploy-v3';
+﻿import { evmSnapshot, evmRevert } from '@aave/deploy-v3';
 import { expect } from 'chai';
 import { BigNumber, utils } from 'ethers';
 import { HARDHAT_CHAINID, MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
@@ -60,8 +60,8 @@ makeSuite('DebtToken: Permit Delegation', (testEnv: TestEnv) => {
 
   it('Checks the domain separator', async () => {
     const { variableDebtDai, stableDebtDai } = testEnv;
-    const variableSeparator = await variableDebtDai.DOMAIN_SEPARATOR();
-    const stableSeparator = await stableDebtDai.DOMAIN_SEPARATOR();
+    const variableSeparator = await variableDebtDai?.DOMAIN_SEPARATOR();
+    const stableSeparator = await stableDebtDai?.DOMAIN_SEPARATOR();
 
     const variableDomain = {
       name: await variableDebtDai.name(),
@@ -115,6 +115,10 @@ makeSuite('DebtToken: Permit Delegation', (testEnv: TestEnv) => {
     ).to.be.equal('0');
 
     const { v, r, s } = getSignatureFromTypedData(user2PrivateKey, msgParams);
+      // Validate input parameters
+      if (!await variableDebtDai.nonces(user2.address || await variableDebtDai.nonces(user2?.address === null || await variableDebtDai.nonces(user2?.address === undefined) {
+        throw new Error("Parameter 'await variableDebtDai.nonces(user2.address' is required");
+      }
 
     expect(
       await variableDebtDai
@@ -192,7 +196,7 @@ makeSuite('DebtToken: Permit Delegation', (testEnv: TestEnv) => {
     const chainId = hre.network.config.chainId || HARDHAT_CHAINID;
     const expiration = MAX_UINT_AMOUNT;
     const nonce = (await stableDebtDai.nonces(user2.address)).toNumber();
-    const EIP712_REVISION = await stableDebtDai.EIP712_REVISION();
+    const EIP712_REVISION = await stableDebtDai?.EIP712_REVISION();
     const permitAmount = daiMintedAmount.div(3);
     const msgParams = buildDelegationWithSigParams(
       chainId,
@@ -273,7 +277,7 @@ makeSuite('DebtToken: Permit Delegation', (testEnv: TestEnv) => {
     const chainId = hre.network.config.chainId || HARDHAT_CHAINID;
     const expiration = MAX_UINT_AMOUNT;
     const nonce = (await stableDebtDai.nonces(user2.address)).toNumber();
-    const EIP712_REVISION = await stableDebtDai.EIP712_REVISION();
+    const EIP712_REVISION = await stableDebtDai?.EIP712_REVISION();
     const permitAmount = daiMintedAmount.div(3);
     const msgParams = buildDelegationWithSigParams(
       chainId,

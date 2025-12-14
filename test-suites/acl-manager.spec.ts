@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { constants, utils } from 'ethers';
 import { ZERO_ADDRESS } from '../helpers/constants';
 import { ACLManager, ACLManager__factory } from '../types';
@@ -20,7 +20,7 @@ makeSuite('Access Control List Manager', (testEnv: TestEnv) => {
   it('Check DEFAULT_ADMIN_ROLE', async () => {
     const { deployer, users } = testEnv;
 
-    const DEFAULT_ADMIN_ROLE = await aclManager.DEFAULT_ADMIN_ROLE();
+    const DEFAULT_ADMIN_ROLE = await aclManager?.DEFAULT_ADMIN_ROLE();
     expect(await aclManager.hasRole(DEFAULT_ADMIN_ROLE, deployer.address)).to.be.eq(true);
     expect(await aclManager.hasRole(DEFAULT_ADMIN_ROLE, users[0].address)).to.be.eq(false);
   });
@@ -68,7 +68,7 @@ makeSuite('Access Control List Manager', (testEnv: TestEnv) => {
 
   it('Make FLASH_BORROW_ADMIN_ROLE admin of FLASH_BORROWER_ROLE', async () => {
     const { deployer } = testEnv;
-    const FLASH_BORROW_ROLE = await aclManager.FLASH_BORROWER_ROLE();
+    const FLASH_BORROW_ROLE = await aclManager?.FLASH_BORROWER_ROLE();
     expect(await aclManager.getRoleAdmin(FLASH_BORROW_ROLE)).to.not.be.eq(FLASH_BORROW_ADMIN_ROLE);
     await aclManager
       .connect(deployer.signer)

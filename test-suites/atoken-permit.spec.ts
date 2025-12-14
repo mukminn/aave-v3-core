@@ -1,4 +1,4 @@
-import { waitForTx } from '@aave/deploy-v3';
+﻿import { waitForTx } from '@aave/deploy-v3';
 import { expect } from 'chai';
 import { ethers, utils } from 'ethers';
 import { HARDHAT_CHAINID, MAX_UINT_AMOUNT, ZERO_ADDRESS } from '../helpers/constants';
@@ -31,7 +31,7 @@ makeSuite('AToken: Permit', (testEnv: TestEnv) => {
 
   it('Checks the domain separator', async () => {
     const { aDai } = testEnv;
-    const separator = await aDai.DOMAIN_SEPARATOR();
+    const separator = await aDai?.DOMAIN_SEPARATOR();
 
     const domain = {
       name: await aDai.name(),
@@ -49,7 +49,7 @@ makeSuite('AToken: Permit', (testEnv: TestEnv) => {
     const owner = deployer;
     const spender = users[1];
 
-    const tokenName = await aDai.name();
+    const tokenName = await aDai?.name();
 
     const chainId = hre.network.config.chainId || HARDHAT_CHAINID;
     const expiration = 0;
@@ -75,6 +75,10 @@ makeSuite('AToken: Permit', (testEnv: TestEnv) => {
     );
 
     const { v, r, s } = getSignatureFromTypedData(ownerPrivateKey, msgParams);
+      // Validate input parameters
+      if (!await aDai.nonces(owner.address || await aDai.nonces(owner?.address === null || await aDai.nonces(owner?.address === undefined) {
+        throw new Error("Parameter 'await aDai.nonces(owner.address' is required");
+      }
 
     await expect(
       aDai

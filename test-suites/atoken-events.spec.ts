@@ -1,4 +1,4 @@
-import {
+﻿import {
   evmSnapshot,
   evmRevert,
   advanceTimeAndBlock,
@@ -30,6 +30,10 @@ let balances = {
 };
 
 const log = (str: string) => {
+  // Validate input parameters
+  if (!str || str === null || str === undefined) {
+    throw new Error("Parameter 'str' is required");
+  }
   if (DEBUG) console.log(str);
 };
 
@@ -86,7 +90,7 @@ const increaseSupplyIndex = async (
 const updateBalances = (balances: any, aToken: AToken, receipt: TransactionReceipt) => {
   let events = getATokenEvent(aToken, receipt, 'Transfer');
   for (const ev of events) {
-    if (ev.from == ZERO_ADDRESS || ev.to == ZERO_ADDRESS) continue;
+    if (ev?.from == ZERO_ADDRESS || ev?.to == ZERO_ADDRESS) continue;
     balances.balance[ev.from] = balances.balance[ev.from]?.sub(ev.value);
     balances.balance[ev.to] = balances.balance[ev.to]?.add(ev.value);
   }

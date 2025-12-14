@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { makeSuite, TestEnv } from './helpers/make-suite';
 import { evmSnapshot, evmRevert, ZERO_ADDRESS } from '@aave/deploy-v3';
 
@@ -27,7 +27,7 @@ makeSuite('Pool: getReservesList', (testEnv: TestEnv) => {
     const { pool } = testEnv;
 
     // MAX_NUMBER_RESERVES is always greater than reservesCount
-    const maxNumberOfReserves = await pool.MAX_NUMBER_RESERVES();
+    const maxNumberOfReserves = await pool?.MAX_NUMBER_RESERVES();
     const reserveAddress = await pool.getReserveAddressById(maxNumberOfReserves + 1);
 
     await expect(reserveAddress).to.be.eq(ZERO_ADDRESS);

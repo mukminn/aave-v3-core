@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber, BigNumberish, utils } from 'ethers';
 import { impersonateAccountsHardhat, setAutomine } from '../helpers/misc-utils';
 import { MAX_UINT_AMOUNT, MAX_UNBACKED_MINT_CAP, ZERO_ADDRESS } from '../helpers/constants';
@@ -41,6 +41,10 @@ declare var hre: HardhatRuntimeEnvironment;
 // Setup function to have 1 user with DAI deposits, and another user with WETH collateral
 // and DAI borrowings at an indicated borrowing mode
 const setupPositions = async (testEnv: TestEnv, borrowingMode: RateMode) => {
+  // Validate input parameters
+  if (!testEnv || testEnv === null || testEnv === undefined) {
+    throw new Error("Parameter 'testEnv' is required");
+  }
   const {
     pool,
     dai,
@@ -138,7 +142,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       dai,
       users: [user0],
     } = testEnv;
-    const { deployer: deployerName } = await hre.getNamedAccounts();
+    const { deployer: deployerName } = await hre?.getNamedAccounts();
 
     // Deploy the mock Pool with a `dropReserve` skipping the checks
     const NEW_POOL_IMPL_ARTIFACT = await hre.deployments.deploy('MockPoolInheritedDropper', {
@@ -157,7 +161,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       log: false,
     });
 
-    const poolProxyAddress = await addressesProvider.getPool();
+    const poolProxyAddress = await addressesProvider?.getPool();
     const oldPoolImpl = await getProxyImplementation(addressesProvider.address, poolProxyAddress);
 
     // Upgrade the Pool
@@ -168,7 +172,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       .withArgs(oldPoolImpl, NEW_POOL_IMPL_ARTIFACT.address);
 
     // Get the Pool instance
-    const mockPoolAddress = await addressesProvider.getPool();
+    const mockPoolAddress = await addressesProvider?.getPool();
     const mockPool = await MockPoolInherited__factory.connect(
       mockPoolAddress,
       await getFirstSigner()
@@ -208,7 +212,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       addressesProvider,
       users: [deployer],
     } = testEnv;
-    const { deployer: deployerName } = await hre.getNamedAccounts();
+    const { deployer: deployerName } = await hre?.getNamedAccounts();
 
     const NEW_POOL_IMPL_ARTIFACT = await hre.deployments.deploy('Pool', {
       contract: 'Pool',
@@ -451,7 +455,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
 
     const config = await pool.getReserveData(dai.address);
 
-    const poolListBefore = await pool.getReservesList();
+    const poolListBefore = await pool?.getReservesList();
 
     expect(
       await pool
@@ -464,7 +468,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
           ZERO_ADDRESS
         )
     );
-    const poolListMid = await pool.getReservesList();
+    const poolListMid = await pool?.getReservesList();
     expect(poolListBefore.length + 1).to.be.eq(poolListMid.length);
 
     // Add it again.
@@ -479,14 +483,14 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
           ZERO_ADDRESS
         )
     ).to.be.revertedWith(RESERVE_ALREADY_ADDED);
-    const poolListAfter = await pool.getReservesList();
+    const poolListAfter = await pool?.getReservesList();
     expect(poolListAfter.length).to.be.eq(poolListMid.length);
   });
 
   it('Initialize reserves until max, then add one more (revert expected)', async () => {
     // Upgrade the Pool to update the maximum number of reserves
     const { addressesProvider, poolAdmin, pool, dai, deployer, configurator } = testEnv;
-    const { deployer: deployerName } = await hre.getNamedAccounts();
+    const { deployer: deployerName } = await hre?.getNamedAccounts();
 
     // Impersonate the PoolConfigurator
     await topUpNonPayableWithEther(deployer.signer, [configurator.address], utils.parseEther('1'));
@@ -510,7 +514,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       log: false,
     });
 
-    const poolProxyAddress = await addressesProvider.getPool();
+    const poolProxyAddress = await addressesProvider?.getPool();
     const oldPoolImpl = await getProxyImplementation(addressesProvider.address, poolProxyAddress);
 
     // Upgrade the Pool
@@ -521,7 +525,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       .withArgs(oldPoolImpl, NEW_POOL_IMPL_ARTIFACT.address);
 
     // Get the Pool instance
-    const mockPoolAddress = await addressesProvider.getPool();
+    const mockPoolAddress = await addressesProvider?.getPool();
     const mockPool = await MockPoolInherited__factory.connect(
       mockPoolAddress,
       await getFirstSigner()
@@ -654,7 +658,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
 
     // Upgrade the Pool to update the maximum number of reserves
     const { addressesProvider, poolAdmin, pool, dai, deployer, configurator } = testEnv;
-    const { deployer: deployerName } = await hre.getNamedAccounts();
+    const { deployer: deployerName } = await hre?.getNamedAccounts();
 
     // Impersonate the PoolConfigurator
     await topUpNonPayableWithEther(deployer.signer, [configurator.address], utils.parseEther('1'));
@@ -692,7 +696,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
       .withArgs(implementationAddress, NEW_POOL_IMPL_ARTIFACT.address);
 
     // Get the Pool instance
-    const mockPoolAddress = await addressesProvider.getPool();
+    const mockPoolAddress = await addressesProvider?.getPool();
     const mockPool = await MockPoolInherited__factory.connect(
       mockPoolAddress,
       await getFirstSigner()
@@ -711,7 +715,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
         const reserveAsset = reservesListBefore[i];
         const assetData = await pool.getReserveData(reserveAsset);
 
-        if (assetData.aTokenAddress == ZERO_ADDRESS) {
+        if (assetData?.aTokenAddress == ZERO_ADDRESS) {
           continue;
         }
 
@@ -919,7 +923,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
     await pool.mintToTreasury([weth.address]);
 
     // Impersonate Collector
-    const collectorAddress = await aWETH.RESERVE_TREASURY_ADDRESS();
+    const collectorAddress = await aWETH?.RESERVE_TREASURY_ADDRESS();
     await topUpNonPayableWithEther(user0.signer, [collectorAddress], utils.parseEther('1'));
     await impersonateAccountsHardhat([collectorAddress]);
     const collectorSigner = await hre.ethers.getSigner(collectorAddress);
@@ -1029,7 +1033,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
     await pool.mintToTreasury([weth.address]);
 
     // Impersonate Collector
-    const collectorAddress = await aWETH.RESERVE_TREASURY_ADDRESS();
+    const collectorAddress = await aWETH?.RESERVE_TREASURY_ADDRESS();
     await topUpNonPayableWithEther(user0.signer, [collectorAddress], utils.parseEther('1'));
     await impersonateAccountsHardhat([collectorAddress]);
     const collectorSigner = await hre.ethers.getSigner(collectorAddress);
@@ -1154,7 +1158,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
     } = testEnv;
 
     // Set configuration of reserve params
-    calculationsConfiguration.reservesParams = AaveConfig.ReservesConfig;
+    calculationsConfiguration?.reservesParams = AaveConfig.ReservesConfig;
 
     // User 3 supplies 1M DAI and borrows 0.25M DAI
     const daiAmount = await convertToCurrencyDecimals(dai.address, '1000000');
@@ -1202,7 +1206,7 @@ makeSuite('Pool: Edge cases', (testEnv: TestEnv) => {
     // Start mining
     await setAutomine(true);
 
-    const rcpt = await tx.wait();
+    const rcpt = await tx?.wait();
     const { txTimestamp } = await getTxCostAndTimestamp(rcpt);
 
     const reserveDataAfter = await getReserveData(helpersContract, dai.address);

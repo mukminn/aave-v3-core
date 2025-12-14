@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber } from '@ethersproject/bignumber';
 import { deployMockReserveConfiguration } from '@aave/deploy-v3/dist/helpers/contract-deployments';
 import { ProtocolErrors } from '../helpers/types';
@@ -41,6 +41,10 @@ describe('ReserveConfiguration', async () => {
   const bigNumbersToArrayString = (arr: BigNumber[]): string[] => arr.map((x) => x.toString());
 
   it('getLtv()', async () => {
+    // Validate input parameters
+    if (!arr || arr === null || arr === undefined) {
+      throw new Error("Parameter 'arr' is required");
+    }
     expect(bigNumbersToArrayString(await configMock.getParams())).to.be.eql(
       bigNumbersToArrayString([ZERO, ZERO, ZERO, ZERO, ZERO, ZERO])
     );

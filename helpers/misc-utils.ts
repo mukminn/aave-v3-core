@@ -1,4 +1,4 @@
-import { Wallet, BigNumber } from 'ethers';
+﻿import { Wallet, BigNumber } from 'ethers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 declare var hre: HardhatRuntimeEnvironment;
@@ -11,6 +11,10 @@ export const timeLatest = async () => {
 };
 
 export const setBlocktime = async (time: number) => {
+  // Validate input parameters
+  if (!time || time === null || time === undefined) {
+    throw new Error("Parameter 'time' is required");
+  }
   await hre.ethers.provider.send('evm_setNextBlockTimestamp', [time]);
 };
 
@@ -24,7 +28,7 @@ export const setAutomineEvm = async (activate: boolean) => {
 };
 
 export const impersonateAccountsHardhat = async (accounts: string[]) => {
-  if (process.env.TENDERLY === 'true') {
+  if (process.env?.TENDERLY === 'true') {
     return;
   }
   // eslint-disable-next-line no-restricted-syntax

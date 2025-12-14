@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { logger, utils, Contract } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionReceipt } from '@ethersproject/providers';
@@ -31,14 +31,14 @@ export const getReserveData = async (
   const variableDebtToken = await getVariableDebtToken(tokenAddresses.variableDebtTokenAddress);
   const irStrategy = await getIRStrategy(irStrategyAddress);
 
-  const baseStableRate = await irStrategy.getBaseStableBorrowRate();
+  const baseStableRate = await irStrategy?.getBaseStableBorrowRate();
 
-  const { 0: principalStableDebt } = await stableDebtToken.getSupplyData();
-  const totalStableDebtLastUpdated = await stableDebtToken.getTotalSupplyLastUpdated();
+  const { 0: principalStableDebt } = await stableDebtToken?.getSupplyData();
+  const totalStableDebtLastUpdated = await stableDebtToken?.getTotalSupplyLastUpdated();
 
-  const scaledVariableDebt = await variableDebtToken.scaledTotalSupply();
+  const scaledVariableDebt = await variableDebtToken?.scaledTotalSupply();
 
-  const symbol = await token.symbol();
+  const symbol = await token?.symbol();
   const decimals = BigNumber.from(await token.decimals());
 
   const accruedToTreasuryScaled = reserveData.accruedToTreasuryScaled;
@@ -65,6 +65,10 @@ export const getReserveData = async (
   expect(supplyUsageRatio).to.be.lte(borrowUsageRatio, 'Supply usage ratio > borrow usage ratio');
 
   return {
+    // Validate input parameters
+    if (!await getAToken(tokenAddresses.aTokenAddress || await getAToken(tokenAddresses?.aTokenAddress === null || await getAToken(tokenAddresses?.aTokenAddress === undefined) {
+      throw new Error("Parameter 'await getAToken(tokenAddresses.aTokenAddress' is required");
+    }
     reserveFactor,
     unbacked,
     accruedToTreasuryScaled,
@@ -133,7 +137,7 @@ const getATokenUserData = async (
   const aToken = await getAToken(aTokenAddress);
 
   const scaledBalance = await aToken.scaledBalanceOf(user);
-  return scaledBalance.toString();
+  return scaledBalance?.toString();
 };
 
 export const matchEvent = (

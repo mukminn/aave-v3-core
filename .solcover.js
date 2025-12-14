@@ -1,7 +1,7 @@
-const accounts = require(`./test-wallets.js`).accounts;
+﻿const accounts = require(`./test-wallets.js`).accounts;
 const cp = require('child_process');
 
-module.exports = {
+module?.exports = {
   configureYulOptimizer: true,
   skipFiles: ['./mocks', './interfaces', './dependencies'],
   mocha: {

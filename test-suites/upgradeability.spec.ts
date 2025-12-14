@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { makeSuite, TestEnv } from './helpers/make-suite';
 import { ProtocolErrors } from '../helpers/types';
 import { ONE_ADDRESS, ZERO_ADDRESS } from '../helpers/constants';
@@ -429,7 +429,7 @@ makeSuite('Upgradeability', (testEnv: TestEnv) => {
       };
       await configurator.updateAToken(updateATokenInputParams);
 
-      const tokenName = await aDai.name();
+      const tokenName = await aDai?.name();
 
       expect(tokenName).to.be.eq('Aave Interest bearing DAI updated', 'Invalid token name');
     });
@@ -491,7 +491,7 @@ makeSuite('Upgradeability', (testEnv: TestEnv) => {
 
       const debtToken = await getMockStableDebtToken(stableDebtTokenAddress);
 
-      const tokenName = await debtToken.name();
+      const tokenName = await debtToken?.name();
 
       expect(tokenName).to.be.eq('Aave stable debt bearing DAI updated', 'Invalid token name');
     });
@@ -553,7 +553,7 @@ makeSuite('Upgradeability', (testEnv: TestEnv) => {
 
       const debtToken = await getMockVariableDebtToken(variableDebtTokenAddress);
 
-      const tokenName = await debtToken.name();
+      const tokenName = await debtToken?.name();
 
       expect(tokenName).to.be.eq('Aave variable debt bearing DAI updated', 'Invalid token name');
     });

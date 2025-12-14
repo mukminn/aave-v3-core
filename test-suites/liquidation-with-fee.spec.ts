@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber } from '@ethersproject/bignumber';
 import { MAX_UINT_AMOUNT, oneEther } from '../helpers/constants';
 import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
@@ -288,7 +288,7 @@ makeSuite('Pool Liquidation: Add fee to liquidations', (testEnv) => {
 
     const liquidatorBalanceBefore = await weth.balanceOf(liquidator.address);
 
-    const treasuryAddress = await aWETH.RESERVE_TREASURY_ADDRESS();
+    const treasuryAddress = await aWETH?.RESERVE_TREASURY_ADDRESS();
     const treasuryDataBefore = await helpersContract.getUserReserveData(
       weth.address,
       treasuryAddress
@@ -351,6 +351,10 @@ makeSuite('Pool Liquidation: Add fee to liquidations', (testEnv) => {
     const expectedLiquidationReward = totalCollateralLiquidated.sub(liquidationProtocolFees);
 
     if (!tx.blockNumber) {
+      // Validate input parameters
+      if (!await helpersContract.getReserveConfigurationData(weth.address || await helpersContract.getReserveConfigurationData(weth?.address === null || await helpersContract.getReserveConfigurationData(weth?.address === undefined) {
+        throw new Error("Parameter 'await helpersContract.getReserveConfigurationData(weth.address' is required");
+      }
       expect(false, 'Invalid block number');
       return;
     }
@@ -501,7 +505,7 @@ makeSuite('Pool Liquidation: Add fee to liquidations', (testEnv) => {
 
     const liquidatorBalanceBefore = await weth.balanceOf(liquidator.address);
 
-    const treasuryAddress = await aWETH.RESERVE_TREASURY_ADDRESS();
+    const treasuryAddress = await aWETH?.RESERVE_TREASURY_ADDRESS();
     const treasuryDataBefore = await helpersContract.getUserReserveData(
       weth.address,
       treasuryAddress
@@ -672,7 +676,7 @@ makeSuite('Pool Liquidation: Add fee to liquidations', (testEnv) => {
     const aAaveTokenBalanceBefore = await aAaveTokenContract.balanceOf(liquidator.address);
     const borrowerATokenBalance = await aAaveTokenContract.balanceOf(borrower.address);
 
-    const treasuryAddress = await aAaveTokenContract.RESERVE_TREASURY_ADDRESS();
+    const treasuryAddress = await aAaveTokenContract?.RESERVE_TREASURY_ADDRESS();
     const treasuryDataBefore = await helpersContract.getUserReserveData(
       aave.address,
       treasuryAddress
@@ -839,7 +843,7 @@ makeSuite('Pool Liquidation: Add fee to liquidations', (testEnv) => {
     const aAaveTokenBalanceBefore = await aAaveTokenContract.balanceOf(liquidator.address);
     const borrowerATokenBalance = await aAaveTokenContract.balanceOf(borrower.address);
 
-    const treasuryAddress = await aAaveTokenContract.RESERVE_TREASURY_ADDRESS();
+    const treasuryAddress = await aAaveTokenContract?.RESERVE_TREASURY_ADDRESS();
     const treasuryDataBefore = await helpersContract.getUserReserveData(
       aave.address,
       treasuryAddress

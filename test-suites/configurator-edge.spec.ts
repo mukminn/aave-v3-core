@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+﻿import { expect } from 'chai';
 import { BigNumber } from 'ethers';
 import { makeSuite, TestEnv } from './helpers/make-suite';
 import { ProtocolErrors } from '../helpers/types';
@@ -263,7 +263,7 @@ makeSuite('PoolConfigurator: Edge cases', (testEnv: TestEnv) => {
 
   it('Tries to disable the DAI reserve with liquidity on it (revert expected)', async () => {
     const { dai, pool, configurator } = testEnv;
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
     const amountDAItoDeposit = await convertToCurrencyDecimals(dai.address, '1000');
 
     // Top up user
@@ -284,7 +284,7 @@ makeSuite('PoolConfigurator: Edge cases', (testEnv: TestEnv) => {
   it('Tries to withdraw from an inactive reserve (revert expected)', async () => {
     const { dai, pool, configurator, helpersContract } = testEnv;
     const amountDAItoDeposit = await convertToCurrencyDecimals(dai.address, '1000');
-    const userAddress = await pool.signer.getAddress();
+    const userAddress = await pool.signer?.getAddress();
 
     // Impersonate configurator
     const impConfig = await impersonateAddress(configurator.address);

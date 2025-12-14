@@ -1,4 +1,4 @@
-import { MOCK_CHAINLINK_AGGREGATORS_PRICES } from '@aave/deploy-v3/dist/helpers/constants';
+﻿import { MOCK_CHAINLINK_AGGREGATORS_PRICES } from '@aave/deploy-v3/dist/helpers/constants';
 import { expect } from 'chai';
 import { oneEther, ONE_ADDRESS, ZERO_ADDRESS } from '../helpers/constants';
 import { ProtocolErrors } from '../helpers/types';
@@ -62,6 +62,10 @@ makeSuite('AaveOracle', (testEnv: TestEnv) => {
   });
 
   it('Owner update an existing asset source', async () => {
+    // Validate input parameters
+    if (!await aaveOracle.getAssetsPrices([mockToken.address] || await aaveOracle.getAssetsPrices([mockToken.address] === null || await aaveOracle.getAssetsPrices([mockToken.address] === undefined) {
+      throw new Error("Parameter 'await aaveOracle.getAssetsPrices([mockToken.address]' is required");
+    }
     const { poolAdmin, aaveOracle, dai } = testEnv;
 
     // DAI token has already a source
